@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=3 uid="uid://frl8frtvqs8w"]
+
+[ext_resource type="PackedScene" uid="uid://b0qcmu103qwro" path="res://player/player.tscn" id="1_q2lrh"]
+[ext_resource type="Texture2D" uid="uid://u6238mdunbi0" path="res://level/Floor.png" id="1_yh8ew"]
+[ext_resource type="Script" path="res://level/wave.gd" id="2_bjuxp"]
+[ext_resource type="PackedScene" uid="uid://bckgavbax5s1w" path="res://hud/hud.tscn" id="2_teriq"]
+[ext_resource type="PackedScene" uid="uid://bbapvclxlokh5" path="res://sound_manager/music_caller.tscn" id="4_yjtjq"]
+
+[node name="Level" type="Node2D"]
+texture_filter = 1
+
+[node name="Floor" type="Sprite2D" parent="."]
+texture = ExtResource("1_yh8ew")
+centered = false
+metadata/_edit_lock_ = true
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Walls"]
+polygon = PackedVector2Array(0, 264, 0, 208, 256, 208, 256, 0, 0, 0, 0, 208, -40, 208, -40, -40, 296, -40, 296, 264)
+
+[node name="Telegraph" type="Node2D" parent="."]
+
+[node name="Player" parent="." instance=ExtResource("1_q2lrh")]
+position = Vector2(128, 112)
+
+[node name="Spikes" type="Node2D" parent="."]
+
+[node name="Wave" type="Node2D" parent="."]
+y_sort_enabled = true
+script = ExtResource("2_bjuxp")
+
+[node name="Bullets" type="Node2D" parent="."]
+
+[node name="Hud" parent="." instance=ExtResource("2_teriq")]
+
+[node name="MusicCaller" parent="." instance=ExtResource("4_yjtjq")]
+song = "Map"

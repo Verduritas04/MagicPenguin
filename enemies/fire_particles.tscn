@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://dyydje13avkjf"]
+
+[ext_resource type="Texture2D" uid="uid://qfu6ovfifyag" path="res://particles/bullet_dust.png" id="1_oof3o"]
+
+[sub_resource type="Curve" id="Curve_vobwv"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -1.53557, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_be6k8"]
+curve = SubResource("Curve_vobwv")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_mxhca"]
+emission_shape = 1
+emission_sphere_radius = 1.1
+particle_flag_disable_z = true
+gravity = Vector3(0, 0, 0)
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 0.8
+scale_curve = SubResource("CurveTexture_be6k8")
+
+[node name="FireParticles" type="GPUParticles2D"]
+process_material = SubResource("ParticleProcessMaterial_mxhca")
+texture = ExtResource("1_oof3o")
+lifetime = 0.3
+explosiveness = 0.07

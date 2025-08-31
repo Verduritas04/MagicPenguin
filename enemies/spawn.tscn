@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://bmhcls6j56hbk"]
+
+[ext_resource type="Texture2D" uid="uid://dnq6vinsta0ed" path="res://enemies/spawn.png" id="1_gtivj"]
+[ext_resource type="Script" path="res://enemies/spawn.gd" id="1_k8ct4"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_omwx4"]
+radius = 8.0
+
+[node name="Spawn" type="Area2D"]
+collision_layer = 0
+collision_mask = 16
+script = ExtResource("1_k8ct4")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_gtivj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_omwx4")

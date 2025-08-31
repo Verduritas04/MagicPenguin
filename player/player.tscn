@@ -1,0 +1,142 @@
+[gd_scene load_steps=18 format=3 uid="uid://b0qcmu103qwro"]
+
+[ext_resource type="Script" path="res://player/player.gd" id="1_wf05r"]
+[ext_resource type="PackedScene" uid="uid://c6mon22otnm2y" path="res://player/snow_particles.tscn" id="2_jqqcu"]
+[ext_resource type="Texture2D" uid="uid://bpgpihme6kilh" path="res://player/player.png" id="2_m3jxj"]
+[ext_resource type="PackedScene" uid="uid://daycr8egi2o5v" path="res://utility/hurt_area.tscn" id="3_juf1k"]
+[ext_resource type="PackedScene" uid="uid://brvnsa73iadyg" path="res://utility/animation_player_vfx.tscn" id="4_2mlyy"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_dvyma"]
+radius = 8.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_c1k7w"]
+radius = 3.0
+
+[sub_resource type="Animation" id="Animation_ekmfe"]
+resource_name = "Down"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [4, 0]
+}
+
+[sub_resource type="Animation" id="Animation_ull6u"]
+resource_name = "Left"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [1, 0]
+}
+
+[sub_resource type="Animation" id="Animation_1bhfq"]
+resource_name = "Right"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [2, 0]
+}
+
+[sub_resource type="Animation" id="Animation_584lm"]
+resource_name = "Up"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [3, 0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jlojo"]
+_data = {
+"Down": SubResource("Animation_ekmfe"),
+"Left": SubResource("Animation_ull6u"),
+"Right": SubResource("Animation_1bhfq"),
+"Up": SubResource("Animation_584lm")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_oshwb"]
+animation = &"Down"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_36qsm"]
+animation = &"Up"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_fpssv"]
+animation = &"Left"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_c3dge"]
+animation = &"Right"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_fl8rl"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_oshwb")
+blend_point_0/pos = Vector2(0, 1)
+blend_point_1/node = SubResource("AnimationNodeAnimation_36qsm")
+blend_point_1/pos = Vector2(0, -1)
+blend_point_2/node = SubResource("AnimationNodeAnimation_fpssv")
+blend_point_2/pos = Vector2(-1, 0)
+blend_point_3/node = SubResource("AnimationNodeAnimation_c3dge")
+blend_point_3/pos = Vector2(1, 0)
+blend_mode = 1
+
+[node name="Player" type="CharacterBody2D"]
+collision_layer = 2
+script = ExtResource("1_wf05r")
+
+[node name="SnowParticles" parent="." instance=ExtResource("2_jqqcu")]
+position = Vector2(0, 8)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, 8)
+texture = ExtResource("2_m3jxj")
+offset = Vector2(0, -8)
+hframes = 5
+frame = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_dvyma")
+
+[node name="HurtArea" parent="." instance=ExtResource("3_juf1k")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtArea"]
+shape = SubResource("CircleShape2D_c1k7w")
+
+[node name="AnimationPlayerVFX" parent="." instance=ExtResource("4_2mlyy")]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_jlojo")
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeBlendSpace2D_fl8rl")
+anim_player = NodePath("../AnimationPlayer")
+parameters/blend_position = Vector2(0, 0)

@@ -1,0 +1,185 @@
+[gd_scene load_steps=10 format=3 uid="uid://bckgavbax5s1w"]
+
+[ext_resource type="Script" path="res://hud/hud.gd" id="1_0g1fq"]
+[ext_resource type="Texture2D" uid="uid://luvp22ylqqjo" path="res://hud/ammo_empty.png" id="1_vefn5"]
+[ext_resource type="Texture2D" uid="uid://cqt6i6c5ntbvc" path="res://hud/ammo.png" id="2_dhx3u"]
+[ext_resource type="FontFile" uid="uid://c5tsa1xbmvfmk" path="res://fonts/font.tres" id="4_d8k4s"]
+[ext_resource type="FontFile" uid="uid://bcnejg1oybxhr" path="res://fonts/scoreup.ttf" id="4_joxmb"]
+[ext_resource type="PackedScene" uid="uid://d0if5vcdmeihh" path="res://utility/button.tscn" id="6_47h2w"]
+[ext_resource type="Texture2D" uid="uid://qr4mr56nvgk2" path="res://hud/shop.png" id="7_0nbyg"]
+
+[sub_resource type="Animation" id="Animation_rfkfn"]
+resource_name = "Bouce"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Score:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(8, 208), Vector2(8, 206), Vector2(8, 208)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ayn4l"]
+_data = {
+"Bouce": SubResource("Animation_rfkfn")
+}
+
+[node name="Hud" type="Control"]
+z_index = 50
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_0g1fq")
+metadata/_edit_lock_ = true
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_top = 208.0
+offset_right = 256.0
+offset_bottom = 240.0
+color = Color(0, 0, 0, 1)
+
+[node name="AmmoEmpty" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 192.0
+offset_top = 216.0
+offset_right = 240.0
+offset_bottom = 232.0
+texture = ExtResource("1_vefn5")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="Ammo" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 208.0
+offset_top = 216.0
+offset_right = 240.0
+offset_bottom = 232.0
+texture = ExtResource("2_dhx3u")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="Score" type="Label" parent="."]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 208.0
+offset_right = 72.0
+offset_bottom = 240.0
+theme_override_fonts/font = ExtResource("4_d8k4s")
+theme_override_font_sizes/font_size = 5
+text = "Score : 0"
+vertical_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Score"]
+root_node = NodePath("../..")
+libraries = {
+"": SubResource("AnimationLibrary_ayn4l")
+}
+
+[node name="Wave" type="Label" parent="."]
+layout_mode = 0
+offset_left = 96.0
+offset_top = 208.0
+offset_right = 160.0
+offset_bottom = 240.0
+theme_override_fonts/font = ExtResource("4_joxmb")
+theme_override_font_sizes/font_size = 5
+text = "WAVE 1/5"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 64.0
+offset_top = 8.0
+offset_right = 192.0
+offset_bottom = 24.0
+alignment = 1
+
+[node name="Button" parent="HBoxContainer" instance=ExtResource("6_47h2w")]
+layout_mode = 2
+text = "Retry"
+
+[node name="Button2" parent="HBoxContainer" instance=ExtResource("6_47h2w")]
+layout_mode = 2
+text = "Quit"
+
+[node name="Shop" type="Control" parent="."]
+visible = false
+anchors_preset = 0
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Shop"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 96.0
+offset_right = 240.0
+offset_bottom = 112.0
+alignment = 1
+
+[node name="Ammo" parent="Shop/HBoxContainer2" instance=ExtResource("6_47h2w")]
+layout_mode = 2
+text = "-500"
+
+[node name="Load" parent="Shop/HBoxContainer2" instance=ExtResource("6_47h2w")]
+layout_mode = 2
+text = "-100"
+
+[node name="Spread" parent="Shop/HBoxContainer2" instance=ExtResource("6_47h2w")]
+layout_mode = 2
+text = "-200"
+
+[node name="OneMore" parent="Shop/HBoxContainer2" instance=ExtResource("6_47h2w")]
+layout_mode = 2
+text = "-100"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="Shop"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 120.0
+offset_right = 240.0
+offset_bottom = 136.0
+alignment = 1
+
+[node name="Done" parent="Shop/HBoxContainer3" instance=ExtResource("6_47h2w")]
+layout_mode = 2
+text = "Done"
+
+[node name="Shop2" type="Sprite2D" parent="Shop"]
+position = Vector2(100, 72)
+texture = ExtResource("7_0nbyg")
+hframes = 4
+
+[node name="Shop3" type="Sprite2D" parent="Shop"]
+position = Vector2(44, 72)
+texture = ExtResource("7_0nbyg")
+hframes = 4
+frame = 1
+
+[node name="Shop4" type="Sprite2D" parent="Shop"]
+position = Vector2(156, 72)
+texture = ExtResource("7_0nbyg")
+hframes = 4
+frame = 2
+
+[node name="Shop5" type="Sprite2D" parent="Shop"]
+position = Vector2(212, 72)
+texture = ExtResource("7_0nbyg")
+hframes = 4
+frame = 3
+
+[connection signal="pressed" from="HBoxContainer/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/Button2" to="." method="_on_button_2_pressed"]
+[connection signal="pressed" from="Shop/HBoxContainer2/Ammo" to="." method="_on_ammo_pressed"]
+[connection signal="pressed" from="Shop/HBoxContainer2/Load" to="." method="_on_load_pressed"]
+[connection signal="pressed" from="Shop/HBoxContainer2/Spread" to="." method="_on_spread_pressed"]
+[connection signal="pressed" from="Shop/HBoxContainer2/OneMore" to="." method="_on_one_more_pressed"]
+[connection signal="pressed" from="Shop/HBoxContainer3/Done" to="." method="_on_done_pressed"]

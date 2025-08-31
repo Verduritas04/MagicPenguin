@@ -1,0 +1,73 @@
+[gd_scene load_steps=7 format=3 uid="uid://c418gsik1imj3"]
+
+[ext_resource type="Script" path="res://menu/menu.gd" id="1_3puyu"]
+[ext_resource type="Texture2D" uid="uid://u6238mdunbi0" path="res://level/Floor.png" id="1_36mmj"]
+[ext_resource type="PackedScene" uid="uid://d0if5vcdmeihh" path="res://utility/button.tscn" id="2_3gboc"]
+[ext_resource type="Texture2D" uid="uid://c63kvb2gr1jtw" path="res://menu/logo.png" id="4_ecpxy"]
+
+[sub_resource type="Animation" id="Animation_uqq70"]
+resource_name = "Appear"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Logo:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(128, -112), Vector2(128, 96)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_br8yg"]
+_data = {
+"Appear": SubResource("Animation_uqq70")
+}
+
+[node name="Menu" type="Control"]
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_3puyu")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_36mmj")
+centered = false
+metadata/_edit_lock_ = true
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_top = 208.0
+offset_right = 256.0
+offset_bottom = 240.0
+color = Color(0, 0, 0, 1)
+metadata/_edit_lock_ = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 208.0
+offset_right = 184.0
+offset_bottom = 240.0
+
+[node name="Button" parent="HBoxContainer" instance=ExtResource("2_3gboc")]
+layout_mode = 2
+text = "Play"
+
+[node name="Logo" type="Sprite2D" parent="."]
+position = Vector2(128, 96)
+texture = ExtResource("4_ecpxy")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_br8yg")
+}
+autoplay = "Appear"
+
+[connection signal="pressed" from="HBoxContainer/Button" to="." method="_on_button_pressed"]
